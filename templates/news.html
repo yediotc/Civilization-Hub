@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block header %}Home Page{% endblock %}
+
+{% block main %}
+
+<form action="/news" method="get">
+
+    <body>
+        <!-- 背景图部分 -->
+        <div class="header-image">
+            <a href="https://store.steampowered.com/app/1295660/VII/" class="preorder-button">Pre-order Now</a>
+        </div>
+<p></p>
+        <!-- 倒计时标题部分 -->
+        <div class="container mt-4 text-center">
+            <h2 class="countdown-title">Time Until Sid Meier's Civilization® VII Release:</h2>
+            <!-- 外部倒计时 iframe -->
+            <iframe src="https://free.timeanddate.com/countdown/i9ikp7x5/n234/cf12/cm0/cu4/ct0/cs0/ca0/co0/cr0/ss0/cacfff/cpc000/pct/tcfff/fn3/fs140/szw960/szh405/iso2025-02-11T09:00:00" allowtransparency="true" frameborder="0" width="479" height="115"></iframe>
+        </div>
+
+
+        <div class="container mt-4">
+            <!-- 顶部水平导航选项卡 -->
+            <ul class="nav nav-pills mb-3" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="steam-tab" data-toggle="pill" href="#steam" role="tab" aria-controls="steam" aria-selected="true">Steam News</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="twitter-tab" data-toggle="pill" href="#twitter" role="tab" aria-controls="twitter" aria-selected="false">Twitter</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="youtube-tab" data-toggle="pill" href="#youtube" role="tab" aria-controls="youtube" aria-selected="false">YouTube</a>
+                </li>
+            </ul>
+
+            <!-- 选项卡内容 -->
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="steam" role="tabpanel" aria-labelledby="steam-tab">
+                    {% for news in steam_news %}
+                        <div class="news-item">
+                            <h3><a href="{{ news.url }}" target="_blank">{{ news.title }}</a></h3>
+                            <p class="news-date">{{ news.date | datetimeformat }}</p>
+                            <p>{{ news.contents | safe }}</p>
+                        </div>
+                    {% endfor %}
+                    <div class="view-more">
+                        <a href="https://store.steampowered.com/news/" target="_blank">查看更多 >></a>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="twitter" role="tabpanel" aria-labelledby="twitter-tab">
+                    <!-- Twitter 动态内容嵌入 -->
+                    <a class="twitter-timeline" data-theme="dark" href="https://twitter.com/CivGame?ref_src=twsrc%5Etfw">Tweets by CivGame</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+
+
+                <div class="tab-pane fade" id="youtube" role="tabpanel" aria-labelledby="youtube-tab">
+                    <!-- YouTube 最新视频嵌入 -->
+                    <iframe width="920" height="520" src="https://www.youtube.com/embed/Tc3_EO6Bj2M?si=I7cQVbt04cXsS9WU" title="YouTube video player" frameborder="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- 引入 Bootstrap JS 和 jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    </body>
+</form>
+
+{% endblock %}

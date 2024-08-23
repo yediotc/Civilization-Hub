@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Achievement{% endblock %}
+
+{% block header %}Achievement{% endblock %}
+
+{% block main %}
+
+    <form action="/achievement" method="get">
+        <body>
+
+            <!-- 用户信息和进度条 -->
+            <div class="container-fluid mt-4">
+                <div class="row align-items-stretch">
+                    <!-- 左侧头图 -->
+                    <div class="col-md-4">
+                        <img src="/static/civ6_2.jpg" class="img-fluid w-100" alt="Civilization 6 Header Image">
+                    </div>
+
+                    <!-- 右侧成就信息 -->
+                    <div class="col-md-8 d-flex flex-column justify-content-center">
+                        <h1 class="text-center mb-4">Civilization VI Achievements</h1>
+
+                    <!-- 用户信息（头像和用户名） -->
+                    <div class="user-info d-flex justify-content-center align-items-center">
+                        <a href="{{ profile['profileurl'] }}" target="_blank">
+                            <img src="{{ profile['avatarfull'] }}" alt="User Avatar" class="user-avatar">
+                        </a>
+                        <h3 class="user-name">{{ profile['personaname'] }}</h3>
+                    </div>
+
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="mb-0">Earned: {{ achievement_count }} / 320</h4>
+                            <h4 class="mb-0">Progress: {{ progress }}</h4>
+
+
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ progress }};" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="row mt-4">
+                    <h3>Special Achievements</h3>
+                    <!-- 最早获得的成就 -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Earliest Achievement
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>{{ earliest_achievement['name'] }}</strong></li>
+                                <li class="list-group-item">{{ earliest_achievement['description'] }}</li>
+                                <li class="list-group-item">Achieved on: {{ earliest_achievement['unlocktime'] }}</li>
+                                <li class="list-group-item">Global Percentage: {{ "%.2f" | format(earliest_achievement['percent']) }}%</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 最稀缺的成就 -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Rarest Achievement
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>{{ rarest_achievement['name'] }}</strong></li>
+                                <li class="list-group-item">{{ rarest_achievement['description'] }}</li>
+                                <li class="list-group-item">Achieved on: {{ rarest_achievement['unlocktime'] }}</li>
+                                <li class="list-group-item">Global Percentage: {{ "%.2f" | format(rarest_achievement['percent']) }}%</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- 成就列表 -->
+            <div class="container-fluid mt-4">
+                <h3>All Achievements</h3>
+                <div class="row achievement-list">
+                    {% for achievement in achievements %}
+                        <div class="col-md-12">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h4 class="achievement-name">{{ achievement['name'] }}</h4>
+                                    <p class="achievement-description">{{ achievement['description'] }}</p>
+                                    <p>Global Percentage: {{ "%.2f" | format(achievement['percent']) }}%</p>
+                                    {% if achievement['achieved'] == 1 %}
+                                        <span class="badge badge-success">Achieved on: {{ achievement['unlocktime'] }}</span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">Not yet achieved</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- 引入Bootstrap JS -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            </body>
+
+
+    </form>
+
+{% endblock %}

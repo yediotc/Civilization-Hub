@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block header %}Home Page{% endblock %}
+
+{% block main %}
+
+    <form action="/" method="get">
+
+
+        <div class="container mt-5">
+            <!-- 个人资料信息展示 -->
+            <div class="row align-items-center profile-container mb-5">
+                <!-- 左侧头像 -->
+                <div class="col-md-4 text-center">
+                    <img src="{{ profile['avatarfull'] }}" alt="Avatar" class="profile-avatar rounded-circle">
+                </div>
+                <!-- 右侧个人信息 -->
+                <div class="col-md-8">
+                    <h2 class="profile-name">
+                        <a href="{{ profile['profileurl'] }}" target="_blank">{{ profile['personaname'] }}</a>
+                    </h2>
+                    <div class="profile-details">
+                        <div class="profile-detail-item">
+                            <strong>Real Name:</strong> {{ profile['realname'] or 'N/A' }}
+                        </div>
+                        <div class="profile-detail-item">
+                            <strong>Account Status:</strong> {{ profile['personastate'] == 1 and 'Online' or 'Offline' }}
+                        </div>
+                        <div class="profile-detail-item">
+                            <strong>Last Logoff:</strong> {{ profile['lastlogoff'] | datetimeformat }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 游戏展示部分 -->
+            <h1 class="text-center mb-4">Owned Civilization Series Games</h1>
+            <div class="row">
+                {% for game in civ_games %}
+                <div class="col-12 col-sm-6 col-md-3 mb-4">
+                    <div class="game-item d-flex flex-column">
+                        <!-- 封面图 -->
+                        <img src="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/{{ game['appid'] }}/library_600x900.jpg" alt="{{ game['name'] }}" class="game-cover img-fluid mb-2">
+                        <!-- 游戏信息 -->
+                        <div class="game-info text-center mt-auto">
+                            <h5 class="game-title">{{ game['name'] }}</h5>
+                            <p class="game-playtime fw-bold text-primary">Total Playtime: {{ (game['playtime_forever'] // 60) }} hours</p>
+                            {% if game['playtime_2weeks'] %}
+                            <p class="game-playtime-recent text-secondary">Playtime Last 2 Weeks: {{ (game['playtime_2weeks'] // 60) }} hours</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+
+    </form>
+
+{% endblock %}

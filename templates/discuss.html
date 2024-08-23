@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block header %}Home Page{% endblock %}
+
+{% block main %}
+
+<form action="/discuss" method="post">
+
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Discussion Forum</h1>
+        <h4 class="text-center mb-4">Stay Civilized</h4>
+
+            <!-- 评论输入表单 -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form id="comment-form" method="POST" action="/future">
+                        <div class="mb-3">
+                            <textarea class="form-control" id="comment" name="comment" rows="3" placeholder="Share your thoughts..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+    </div>
+
+
+        <!-- 展示过往评论 -->
+        <div id="comments-section">
+            {% for row in comments %}
+            <div class="card mb-3">
+                <div class="card-body d-flex align-items-center">
+                    <a href="https://steamcommunity.com/profiles/{{ row['steam_id'] }}" target="_blank">
+                        <img src="{{ row['avatar_url'] }}" alt="Avatar" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                    </a>
+                    <div>
+                        <h5 class="card-title mb-1">{{ row['username'] }}</h5>
+                        <p class="card-text">{{ row['content'] }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+
+</body>
+</form>
+
+{% endblock %}
